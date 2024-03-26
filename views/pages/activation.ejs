@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <%- include('../components/head')%>
+    </head>
+</head>
+<body>
+    <header>
+        <%- include('../components/header')%>
+            <h3>User Registration</h3>
+    </header>
+
+    <main>
+        <div class = 'center'>
+            <%if(status == true){%>
+               <p>Your account is registered Successfully, click on below link to activate your account </p>
+              <a href="/activate?id=<%=email%>&token=<%=token%>"><%= token %></a>
+            <%}%>
+          </div>
+    </main>
+</body>
+</html>

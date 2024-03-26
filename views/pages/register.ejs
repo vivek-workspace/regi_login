@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../components/head')%>
+</head>
+
+<body>
+
+    <header>
+        <%- include('../components/header')%>
+            <h3>User Registration</h3>
+    </header>
+
+    <main>
+        
+        <form id="form" method="POST" action="/registeruser">
+            <div class="row email">
+                <label for="email">Email Id:</label>
+                <input type="text" class="inp" name="email" id="email">
+        
+                <%if(fresh === false){%>
+                    <p id="usr_exist" style="color: red;" >User already Exist.</p>
+                <%}%>         
+            </div>
+            <div class="row">
+                <label for="first_name">First Name :</label>
+                <input type="text" class="inp" name="first_name" id="first_name">
+            </div>
+            <div class="row">
+                <label for="last_name">Last Name :</label>
+                <input type="text" class="inp" name="last_name" id="last_name">
+            </div>
+            <div class="row">
+                <label for="city">City :</label>
+                <input type="text" class="inp" name="city" id="city">
+            </div>
+            <div class="row">
+                <label for="pwd">Password:</label>
+                <input type="password" class="inp" name="pwd" id="pwd">
+            </div>
+            <div class="row">
+                <label for="pwd2">Conform Password:</label>
+                <input type="password" class="inp" name="pwd2" id="pwd2">
+            </div>
+            <div class="row">
+                <input class="btn submit registerbtn" onclick="return validateform()" type="submit" name="submit" id="submit" value="Register">
+            </div>
+
+        </form>
+
+        <div id="activation_token_displayer" hidden> </div>
+    </main>
+
+
+    <script>
+
+        // function submitUser(){
+        //     const validated =  validateform();
+        //     if(validated){
+        //         const data = new URLSearchParams(new FormData(document.getElementById('form')));
+        //         fetchRequest('/registeruser',data);
+        //     }
+        // }
+
+        // async function fetchRequest(url, data){
+
+        //     const option = {
+        //         method: 'POST',
+        //         body: data
+        //     }
+
+        //     let response = await fetch(url, option);
+        //     response = await response.json();
+            
+        //     if(response.res_obj.status){
+        //         alert("User Created");
+        //         const div1 = document.getElementById('activation_token_displayer');
+        //         div1.hidden = false;
+        //         console.log(response)
+        //         div1.innerHTML = `<p style='color: green'>Reistered Successfully Your Activation Token is <strong>${response.res_obj.token}</strong> </p>
+        //         <p>Note: Copy Token, You will be asked for this token while your first Login</p>`
+        //     }else{
+        //         document.getElementById('usr_exist').hidden = false;
+              
+        //     }
+        // }
+
+        function validateform() {
+            let flag = true;
+            let alertcontent = [];
+
+            const inpfields = document.querySelectorAll('.inp');
+            inpfields.forEach(element => {
+                if (element.value == '') {
+                    flag = false;
+                    alertcontent.push(` ${element.name} can not be empty. `);
+                    element.classList.add('invalid');
+                }
+                else {
+                    element.classList.remove('invalid');
+                }
+            });
+
+            const email = document.getElementById('email');
+            const emailRegEx = /\S+@\S+\.\S+/;
+            if (!emailRegEx.test(email.value)) {
+                flag = false;
+                alertcontent.push(' Email is Invalid ');
+                email.classList.add('invalid');
+            }
+            else {
+                email.classList.remove('invalid');
+            }
+
+            const password = document.getElementById('pwd');
+            const password2 = document.getElementById('pwd2');
+            if (password.value.length <= 6) {
+                flag = false;
+                alertcontent.push(' Password Length Must be more than 6 chars ');
+                password.classList.add('invalid');
+            }
+            else if(password.value !== password2.value){
+                flag = false;
+                alertcontent.push(' Both Password are diffrent ');
+                password.classList.add('invalid');
+                password2.classList.add('invalid');
+            }
+            else {
+                password.classList.remove('invalid');
+            }
+
+            if(!flag){
+                alert(`${alertcontent}`)
+            }
+
+            return flag;
+        }
+    </script>
+</body>
+
+</html>

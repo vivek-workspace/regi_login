@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../components/head')%>
+</head>
+
+<body>
+    <header>
+        <%- include('../components/header')%>
+            <h3>Login</h3>
+    </header>
+
+
+    <main>
+        <form action="/changepwd" method="POST" onsubmit="return validateForm()">
+            <input type="text" name="email" id="email" value="<%= email%>" hidden>
+            <input type="text" name="token" id="token" value="<%= token%>" hidden>
+            <label for="emailshow">email : <%= email%></label>
+            <div class="row">
+                <label for="pwd">Set Password:</label>
+                <input type="password" class="inp" name="pwd" id="pwd">
+            </div>
+            <div class="row">
+                <label for="pwd2">Conform Password:</label>
+                <input type="password" class="inp" name="pwd2" id="pwd2">
+            </div>
+            
+            <div id="submit_field" class="row" >
+                <input class="btn submit" type="submit" name="submit" id="submit" value="Login">
+            </div>
+           
+        </form>
+    </main>
+
+    <script>
+
+
+        function validateForm(){
+
+            let flag = true;
+
+            const password = document.getElementById('pwd');
+            if(password.value == ''){
+                flag = false;
+                password.classList.add('invalid');
+                document.getElementById('empty_pwd').hidden = false;
+            }
+            else{
+                password.classList.remove('invalid');
+                document.getElementById('empty_pwd').hidden = true;
+            }
+
+            
+            return flag;
+        }
+    </script>
+</body>
+
+</html>

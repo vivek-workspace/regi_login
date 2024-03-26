@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../components/head')%>
+</head>
+
+<body>
+    <header>
+        <%- include('../components/header')%>
+            <h3>Login</h3>
+    </header>
+
+
+    <main>
+        <form action="/signin" method="POST" onsubmit="return validateForm()">
+            <div id="email_field" class="row">
+                <label for="email">Email Id:</label>
+                <div>
+                    <input type="text" name="email" id="email">
+                    <p style="color: red;" id="email_invalid" hidden>Please Enter valid Email</p>
+                </div>
+            </div>
+            <div id="password_field" class="row" >
+                <label for="pwd">Password:</label>
+                <div>
+                    <input type="password" name="pwd" id="pwd">
+                    <p style="color: red;" id="empty_pwd" hidden>Password  can not be empty</p>
+                </div>
+            </div>
+            <div class="row">
+                <% if(fresh == false){%>
+                    <p style="color: red;" id="incorrect" ><%= message %></p>
+                <%}%>
+            </div>
+            <div id="submit_field" class="row" >
+                <input class="btn submit" type="submit" name="submit" id="submit" value="Login">
+                <input class="btn forgotpassword" type="button" onclick="forgotPwd()" name="forgot" id="forgot" value="Forgot Password">
+            </div>
+           
+        </form>
+    </main>
+
+    <script>
+
+
+        function validateForm(){
+
+            let flag = true;
+
+
+            const email = document.getElementById('email');
+            const emailRegEx = /\S+@\S+\.\S+/;
+            if (!emailRegEx.test(email.value)) {
+                flag = false;
+                email.classList.add('invalid');
+                document.getElementById('email_invalid').hidden = false;
+              
+            }
+            else {
+                email.classList.remove('invalid');
+                document.getElementById('email_invalid').hidden = true;
+            }
+
+            const password = document.getElementById('pwd');
+            if(password.value == ''){
+                flag = false;
+                password.classList.add('invalid');
+                document.getElementById('empty_pwd').hidden = false;
+            }
+            else{
+                password.classList.remove('invalid');
+                document.getElementById('empty_pwd').hidden = true;
+            }
+
+            
+            return flag;
+        }
+
+        function forgotPwd(){
+            let flag = true;
+            const email = document.getElementById('email');
+            const emailRegEx = /\S+@\S+\.\S+/;
+            if (!emailRegEx.test(email.value)) {
+                flag = false;
+                email.classList.add('invalid');
+                document.getElementById('email_invalid').hidden = false;
+              
+            }
+            else {
+                email.classList.remove('invalid');
+                document.getElementById('email_invalid').hidden = true;
+            }
+
+            if(flag){
+                window.location.href = `/fgtpwd?id=${email.value}`;
+            }
+        }
+
+
+        // let page = 1;
+        // function handleNext() {
+
+        //     switch (page) {
+        //         case 1:
+        //             varifyEmail();
+        //             break;
+        //         case 2:
+        //             varifyToken();
+        //             break;
+        //         case 3:
+        //             varifyPassword();
+        //             break;
+        //     }
+        // }
+
+        // function varifyEmail() {
+        //     const email = document.getElementById('email').value;
+        //     console.log(email)
+        //     fetchRequest('/checkemail', { email });
+        // }
+
+        // function varifyToken() {
+        //     const email = document.getElementById('email').value;
+        //     const token = document.getElementById('token').value;
+
+        //     fetchRequest('/checktoken', { email, token });
+        // }
+
+        // function varifyPassword() {
+        //     const email = document.getElementById('email').value;
+        //     const pwd = document.getElementById('pwd').value;
+
+        //     fetchRequest('/signin', { email, pwd });
+        // }
+
+        // async function fetchRequest(url, data) {
+        //     console.log('data', data)
+        //     const option = {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(data)
+        //     }
+
+        //     let result = await fetch(url, option);
+        //     result = await result.json();
+        //     console.log(result)
+        //     if (!result.userFound) {
+        //         alert(' User Not Found ')
+        //     }
+        //     else if (result.userFound && !result.account_status) {
+        //         document.getElementById('email_field').hidden = true;
+        //         document.getElementById('token_field').hidden = false;
+        //         page++;
+        //     }
+        //     else if (result.userFound && result.account_status && !result.login) {
+        //         // document.getElementById('next_field').hidden = true;
+        //         document.getElementById('token_field').hidden = true;
+        //         // document.getElementById('submit_field').hidden = false;
+        //         document.getElementById('email_field').hidden = true;
+        //         document.getElementById('password_field').hidden = false;
+        //         page+=2;
+        //     }
+        //     else if(result.userFound && result.account_status && result.login && !result.login_status){
+        //         document.getElementById('pwd').style.border = '1px solid red';
+        //         document.getElementById('pwd_incorrect').hidden = false;
+              
+        //     }
+        //     else if (result.userFound && result.account_status && result.login && result.login_status) {
+        //         alert('login successful  ')
+        //         window.location.href = '/success'
+        //     }
+        // }
+    </script>
+</body>
+
+</html>
